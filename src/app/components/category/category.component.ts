@@ -5,33 +5,45 @@ import { CategoryService } from 'src/app/services/category.service';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css'],
+  styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
-  categories: Category[] = [];
-  currentCategory: Category; //Bu şekilde objeyi newlemeden kullanabilmek için tsconfig.json içine strictPropertyInitialization:false şeklinde ekleme yapıldı. (Alternatif olarak fake bir değer verilebilir veya interface yapısının altına class açılabilirdi.)
 
-  constructor(private categoryService: CategoryService) {}
+  categories : Category[]=[];
+  currentCategory :Category;
+  constructor(private categoryService:CategoryService) { }
 
   ngOnInit(): void {
     this.getCategories();
   }
 
   getCategories() {
-    this.categoryService.getCategories().subscribe((response) => {
-      this.categories = response.data;
-    });
+    this.categoryService.getCategories().subscribe(response=>{
+      this.categories = response.data
+    })   
   }
-
-  setCurrentCategory(category: Category) {
+  setCurrentCategory(category:Category){
     this.currentCategory = category;
   }
 
   getCurrentCategoryClass(category:Category){
-    if(category == this.currentCategory){
-      return "list-group-item active";
+    if(category ==this.currentCategory){
+      return "list-group-item active"
     }else{
-      return "list-group-item";
+      return "list-group-item"
     }
   }
+
+  getAllCategoryClass(){
+       if(!this.currentCategory){
+        return "list-group-item active"
+       }
+       else{
+        return "list-group-item"
+       }
+  }
+  selectCategory(category: any) {
+    this.currentCategory = category;
+  }
+
 }
